@@ -6,7 +6,7 @@ const fi = (function() {
 
     each: function(collection, func) {
       let newCollection;      
-      if (typeof collection === 'object'){
+      if (!Array.isArray(collection)){
             newCollection = Object.values(collection)
             }else{
             newCollection = collection
@@ -17,18 +17,27 @@ const fi = (function() {
            return collection
   },
 
-    map: function(collection, func) {  
-      if (collection instanceof Object){
-        debugger
-            let collection = Object.values(collection)
-            }
-            return collection.map(item => {
-              func(item)
-            })
+    map: function(things, func) {  
+      let newThings;
+      if (!Array.isArray(things)){
+            newThings = Object.values(things)
+       } else { 
+            newThings = things
+          }
+          return newThings.map(thing => func(thing))
+          // let finalArray = []
+          // for (let i = 0; i < newThings.length; i++){
+          //   debugger
+          //   finalArray.push(func(newThings[i]))
+          // }
+          //  return finalArray
     },
 
-    reduce: function() {
-
+    reduce: function(collection, func, acc) {
+      debugger
+      let value = 0
+      let currentValue = 0
+        collection.reduce(func(acc, value, collection), currentValue)
     },
 
     functions: function() {
