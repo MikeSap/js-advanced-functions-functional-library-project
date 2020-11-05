@@ -34,14 +34,103 @@ const fi = (function() {
     },
 
     reduce: function(collection, func, acc) {
-      debugger
-      let value = 0
-      let currentValue = 0
-        collection.reduce(func(acc, value, collection), currentValue)
+        
+        let array = Array.isArray(collection) ? [...collection] : Object.values(collection)
+        let output = acc ? acc : array.shift()
+
+        for (let i=0; i<array.length; i++){
+          output = func(output, array[i], array)
+        }
+      return output    
+
     },
 
-    functions: function() {
+    find: function(collection,predicate){
 
+      const array = Array.isArray(collection) ? [...collection] : Object.values(collection)
+
+      for (let i=0; i<array.length; i++){
+        if (predicate(collection[i])) { 
+          return collection[i]
+        }
+      }
+    },
+
+    filter: function(collection,predicate){
+      const array = Array.isArray(collection) ? [...collection] : Object.values(collection)
+      const newArray = []
+
+      for (let i=0; i<array.length; i++){
+        if (predicate(array[i])) {
+          newArray.push(array[i])
+        }
+      }
+      return newArray
+    },
+
+    size: function(collection){
+      const array = Array.isArray(collection) ? [...collection] : Object.keys(collection)
+      return array.length
+    },
+
+    first: function(array, n){ 
+     return n ? array.slice(0, n) : array[0]
+    },
+
+    last: function(array, n){
+      let start = array.length - n
+      let end = array.length
+      return n ? array.slice(start, end) : array[end-1]
+    },
+
+    compact: function(collection){
+      const array = Array.isArray(collection) ? [...collection] : Object.values(collection)
+      let newArray = []
+
+      for (let i=0; i<array.length; i++){
+        if (array[i]){
+          newArray.push(array[i])
+        }
+      }
+      return newArray
+      
+    },
+
+    sortBy: function(collection,callback){
+      const array = Array.isArray(collection) ? [...collection] : Object.values(collection)
+
+      return array.sort(function(a,b){
+        return callback(a) - callback(b)
+      })
+
+    },
+
+    flatten: function(){
+
+    },
+
+    uniq: function(){
+
+    },
+
+    keys: function(object){
+      return Object.keys(object)
+    },
+
+    values: function(object){
+      return Object.values(object)
+    },
+
+    functions: function(object){
+      let fNames = Object.keys(object)
+      let sorted = []
+      
+      for (let i = 0; i<fNames.length; i++){
+        if(typeof object[fNames[i]] === 'function'){
+          sorted.push(object[fNames[i]])
+        }
+      }
+      return sorted.sort()
     },
 
 
